@@ -8,13 +8,6 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.util.List;
 
-/**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p>
- * TODO: Customize class - update intent actions, extra parameters and static
- * helper methods.
- */
 public class ExecuteIntentService extends IntentService {
     private final String TAG = "ExecuteIntentService";
 
@@ -57,10 +50,8 @@ public class ExecuteIntentService extends IntentService {
             Log.d(TAG, "onAccessibilityEvent: startSearchByID");
             resultInfoList = AccessUtils.findAccessibilityNodeInfosByIDContain(rootInfo, "skip");
         }
-        Log.d(TAG, "onAccessibilityEvent: list:" + resultInfoList.toString());
         if (!resultInfoList.isEmpty()) {
             for (AccessibilityNodeInfo info : resultInfoList) {
-                Log.d(TAG, "onAccessibilityEvent: Find&Click");
                 AccessUtils.click(info);
                 info.recycle();
             }

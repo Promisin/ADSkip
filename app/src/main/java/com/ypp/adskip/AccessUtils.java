@@ -19,9 +19,7 @@ public class AccessUtils {
         }
         if (info.isClickable()) {
             info.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-            Log.d(TAG, "click: ");
         } else {
-            Log.d(TAG, "click: parent");
             click(info.getParent());
         }
     }
@@ -30,9 +28,6 @@ public class AccessUtils {
         List<AccessibilityNodeInfo> resultList = new ArrayList<>();
         if (rootNodeInfo!=null && rootNodeInfo.getChildCount()!=0){
             for (int i = 0; i < rootNodeInfo.getChildCount(); i++) {
-                if (rootNodeInfo.getChild(i)!=null){
-                    Log.d(TAG, "findAccessibilityNodeInfosByText: "+rootNodeInfo.getChild(i).getText());
-                }
                 if (rootNodeInfo.getChild(i)!=null &&
                         rootNodeInfo.getChild(i).getText()!=null &&
                         rootNodeInfo.getChild(i).getText().toString().contains(targetString)) {
@@ -48,9 +43,6 @@ public class AccessUtils {
         List<AccessibilityNodeInfo> resultList = new ArrayList<>();
         if (rootNodeInfo!=null && rootNodeInfo.getChildCount()!=0){
             for (int i = 0; i < rootNodeInfo.getChildCount(); i++) {
-//                Log.d(TAG, "findAccessibilityNodeInfosByIDContain: "
-//                        +rootNodeInfo.getChild(i).getViewIdResourceName()
-//                        +rootNodeInfo.getChild(i).getChildCount());
                 if (rootNodeInfo.getChild(i)!=null &&
                         rootNodeInfo.getChild(i).getViewIdResourceName()!=null &&
                         rootNodeInfo.getChild(i).getViewIdResourceName().contains(targetString)) {
@@ -66,7 +58,6 @@ public class AccessUtils {
         ComponentName componentName = new ComponentName(context, serviceClass);
         String enabledService = Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-        Log.d(TAG, "isAccessibilityServiceEnabled: "+enabledService);
         if (enabledService != null){
             TextUtils.SimpleStringSplitter splitter = new TextUtils.SimpleStringSplitter(':');
             splitter.setString(enabledService);

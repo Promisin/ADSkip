@@ -34,11 +34,9 @@ public class AccessService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        //Log.d(TAG, "onAccessibilityEvent:1 "+event.toString());
         if (event.getPackageName() != null &&
                 event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED &&
                 event.getPackageName().toString().contains("launcher")) {
-            Log.d(TAG, "onAccessibilityEvent: " + event.toString());
             canStartWork = true;
             lastClickTime = event.getEventTime();
         }
@@ -49,7 +47,6 @@ public class AccessService extends AccessibilityService {
             if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED ||
                 event.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED &&
                 event.getEventTime()>lastClickTime) {
-                Log.d(TAG, "onAccessibilityEvent: " + event.toString());
                 //进入一个新的Activity
                 List<AccessibilityWindowInfo> windows = getWindows();
                 AccessibilityNodeInfo rootInfo = null;

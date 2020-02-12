@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ADSkip</string>
     <string name="accessibility_description">辅助点击跳过广告</string>
-    <string name="notification_text_item">今日已跳过：</string>
+    <string name="notification_text_item">服务运行中…</string>
     <string name="toggle_button_text_on">停止服务</string>
     <string name="toggle_button_text_off">开启服务</string>
 </resources>

@@ -26,7 +26,6 @@ public class AccessService extends AccessibilityService {
     private NotificationCompat.Builder builder;
     private RemoteViews viewNoti;
     private NotificationManager manager;
-    private int skipNum;
     private boolean canStartWork = false;
     private long lastClickTime;
 
@@ -98,7 +97,6 @@ public class AccessService extends AccessibilityService {
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.createNotificationChannel(channel);
         viewNoti = new RemoteViews(getPackageName(), R.layout.notification_layout);
-        viewNoti.setTextViewText(R.id.tvState, String.valueOf(skipNum));
         builder = new NotificationCompat.Builder(this.getApplicationContext(), CHANNEL_ID);
         builder.setSmallIcon(R.drawable.notify_icon)
                 .setContentIntent(PendingIntent.getActivity(
@@ -117,5 +115,6 @@ public class AccessService extends AccessibilityService {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
+        manager.cancel(NOTIFICATION_ID);
     }
 }

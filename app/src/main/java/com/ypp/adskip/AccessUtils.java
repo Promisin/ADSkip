@@ -1,5 +1,9 @@
 package com.ypp.adskip;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -56,5 +60,25 @@ public class AccessUtils {
             }
         }
         return resultList;
+    }
+
+    public static boolean isAccessibilityServiceEnabled(Context context, Class serviceClass){
+        ComponentName componentName = new ComponentName(context, serviceClass);
+        String enabledService = Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+        Log.d(TAG, "isAccessibilityServiceEnabled: "+enabledService);
+        if (enabledService != null){
+            TextUtils.SimpleStringSplitter splitter = new TextUtils.SimpleStringSplitter(':');
+            splitter.setString(enabledService);
+
+            while (splitter.hasNext()){
+                String name = splitter.next();
+                ComponentName currentComName =ComponentName.unflattenFromString(name);
+                if (currentComName.equals(componentName)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -35,7 +35,7 @@ public class AccessService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        //Log.d(TAG, "onAccessibilityEvent: "+event.toString());
+        //Log.d(TAG, "onAccessibilityEvent:1 "+event.toString());
         if (event.getPackageName() != null &&
                 event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED &&
                 event.getPackageName().toString().contains("launcher")) {
@@ -47,8 +47,9 @@ public class AccessService extends AccessibilityService {
             return;
         }
         try {
-            if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
-                event.getEventTime()-lastClickTime>200) {
+            if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED ||
+                event.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED &&
+                event.getEventTime()>lastClickTime) {
                 Log.d(TAG, "onAccessibilityEvent: " + event.toString());
                 //进入一个新的Activity
                 List<AccessibilityWindowInfo> windows = getWindows();
@@ -59,19 +60,8 @@ public class AccessService extends AccessibilityService {
                         rootInfo = info.getRoot();
                     }
                 }
-                List<AccessibilityNodeInfo> resultInfoList
-                        = AccessUtils.findAccessibilityNodeInfosByText(rootInfo, "跳过");
-                if (resultInfoList.isEmpty()) {
-                    Log.d(TAG, "onAccessibilityEvent: startSearchByID");
-                    resultInfoList = AccessUtils.findAccessibilityNodeInfosByIDContain(rootInfo, "skip");
-                }
-                Log.d(TAG, "onAccessibilityEvent: list:" + resultInfoList.toString());
-                if (!resultInfoList.isEmpty()) {
-                    for (AccessibilityNodeInfo info : resultInfoList) {
-                        Log.d(TAG, "onAccessibilityEvent: Find&Click");
-                        info.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                        info.recycle();
-                    }
+                if (rootInfo!=null){
+                    ExecuteIntentService.startExecuteInfo(getApplicationContext(), rootInfo);
                 }
                 if ((event.getEventTime()-lastClickTime)>3000){
                     canStartWork = false;

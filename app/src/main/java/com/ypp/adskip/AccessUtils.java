@@ -26,6 +26,9 @@ public class AccessUtils {
         List<AccessibilityNodeInfo> resultList = new ArrayList<>();
         if (rootNodeInfo!=null && rootNodeInfo.getChildCount()!=0){
             for (int i = 0; i < rootNodeInfo.getChildCount(); i++) {
+                if (rootNodeInfo.getChild(i)!=null){
+                    Log.d(TAG, "findAccessibilityNodeInfosByText: "+rootNodeInfo.getChild(i).getText());
+                }
                 if (rootNodeInfo.getChild(i)!=null &&
                         rootNodeInfo.getChild(i).getText()!=null &&
                         rootNodeInfo.getChild(i).getText().toString().contains(targetString)) {

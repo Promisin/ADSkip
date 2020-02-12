@@ -44,9 +44,12 @@ public class AccessUtils {
         if (rootNodeInfo!=null && rootNodeInfo.getChildCount()!=0){
             for (int i = 0; i < rootNodeInfo.getChildCount(); i++) {
                 if (rootNodeInfo.getChild(i)!=null &&
-                        rootNodeInfo.getChild(i).getViewIdResourceName()!=null &&
-                        rootNodeInfo.getChild(i).getViewIdResourceName().contains(targetString)) {
-                    resultList.add(rootNodeInfo.getChild(i));
+                        rootNodeInfo.getChild(i).getViewIdResourceName()!=null) {
+                    String[] resourceID = rootNodeInfo.getChild(i).getViewIdResourceName().split(":");
+                    Log.d(TAG, "findAccessibilityNodeInfosByIDContain: "+resourceID[1]);
+                    if (resourceID[1].contains(targetString)){
+                        resultList.add(rootNodeInfo.getChild(i));
+                    }
                 }
                 resultList.addAll(findAccessibilityNodeInfosByIDContain(rootNodeInfo.getChild(i), targetString));
             }

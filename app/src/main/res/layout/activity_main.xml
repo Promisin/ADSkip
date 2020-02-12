@@ -27,7 +27,7 @@
         android:id="@+id/permission_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_margin="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,6 +38,24 @@
             android:layout_height="wrap_content"
             android:text="@string/request_permission"
             android:textSize="22sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/permission_path"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/permission_layout"
+        android:text="@string/notice"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_margin="18dp"
+        android:layout_marginTop="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

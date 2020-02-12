@@ -5,4 +5,6 @@
     <string name="toggle_button_text_on">停止服务</string>
     <string name="toggle_button_text_off">开启服务</string>
     <string name="request_permission">无障碍权限：</string>
+    <string name="permission_path">设置>辅助功能>无障碍\t找到ADSkip开启权限</string>
+    <string name="notice">如何防止被系统杀死后台：\n. 系统应用启动管理中运行后台运行\n. 任务管理中锁定本软件</string>
 </resources>

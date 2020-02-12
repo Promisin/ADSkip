@@ -73,6 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
+        buttonStart.setChecked(Utils.isServiceRunning(getApplicationContext()));
     }
 }

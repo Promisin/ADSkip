@@ -80,6 +80,7 @@ public class AccessService extends AccessibilityService {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate: ");
+        Utils.setServiceRunning(getApplicationContext(),true);
     }
 
     @Override
@@ -113,5 +114,6 @@ public class AccessService extends AccessibilityService {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
         manager.cancel(NOTIFICATION_ID);
+        Utils.setServiceRunning(getApplicationContext(),false);
     }
 }

@@ -1,14 +1,19 @@
 package com.ypp.adskip;
 
+import android.accessibilityservice.GestureDescription;
 import android.content.ComponentName;
 import android.content.Context;
+import android.graphics.Path;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.ViewConfiguration;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ypp.adskip.AccessService.getServiceInstance;
 
 public class AccessUtils {
     private static final String TAG = "AccessUtils";
@@ -18,10 +23,23 @@ public class AccessUtils {
             return;
         }
         if (info.isClickable()) {
+            Log.d(TAG, "click: "+info.getViewIdResourceName());
             info.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         } else {
             click(info.getParent());
         }
+    }
+
+    public static void clickInScreen(int x, int y){
+        int duration = ViewConfiguration.getTapTimeout()+50;
+        Path path = new Path();
+        path.moveTo(x, y);
+        GestureDescription.StrokeDescription description =
+                new GestureDescription.StrokeDescription(path, 0, duration);
+        GestureDescription.Builder builder = new GestureDescription.Builder();
+        builder.addStroke(description);
+        getServiceInstance().dispatchGesture(builder.build(), null, null);
+        Log.d(TAG, "clickInScreen: "+x+" "+y);
     }
 
     public static List<AccessibilityNodeInfo> findAccessibilityNodeInfosByText(AccessibilityNodeInfo rootNodeInfo, String targetString){
@@ -43,15 +61,18 @@ public class AccessUtils {
         List<AccessibilityNodeInfo> resultList = new ArrayList<>();
         if (rootNodeInfo!=null && rootNodeInfo.getChildCount()!=0){
             for (int i = 0; i < rootNodeInfo.getChildCount(); i++) {
-                if (rootNodeInfo.getChild(i)!=null &&
-                        rootNodeInfo.getChild(i).getViewIdResourceName()!=null) {
-                    String[] resourceID = rootNodeInfo.getChild(i).getViewIdResourceName().split(":");
+                AccessibilityNodeInfo childInfo = rootNodeInfo.getChild(i);
+                if (childInfo!=null && childInfo.getViewIdResourceName()!=null) {
+                    String[] resourceID = childInfo.getViewIdResourceName().split(":");
                     Log.d(TAG, "findAccessibilityNodeInfosByIDContain: "+resourceID[1]);
                     if (resourceID[1].contains(targetString)){
-                        resultList.add(rootNodeInfo.getChild(i));
+                        resultList.add(childInfo);
                     }
                 }
-                resultList.addAll(findAccessibilityNodeInfosByIDContain(rootNodeInfo.getChild(i), targetString));
+                resultList.addAll(findAccessibilityNodeInfosByIDContain(childInfo, targetString));
+                /*if (!resultList.contains(childInfo)){
+                    childInfo.recycle();
+                }*/
             }
         }
         return resultList;

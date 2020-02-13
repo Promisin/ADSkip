@@ -3,7 +3,7 @@ package com.ypp.adskip;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Rect;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.util.List;
@@ -32,27 +32,25 @@ public class ExecuteIntentService extends IntentService {
             final String action = intent.getAction();
             if (ACTION_EXECUTE.equals(action)) {
                 final AccessibilityNodeInfo rootInfo = intent.getParcelableExtra(EXTRA_INFO);
-                handleActionFoo(rootInfo);
+                handleActionExecute(rootInfo);
             }
         }
     }
 
-    /**
-     * Handle action Foo in the provided background thread with the provided
-     * parameters.
-     */
-    private void handleActionFoo(AccessibilityNodeInfo rootInfo) {
+
+    private void handleActionExecute(AccessibilityNodeInfo rootInfo) {
         /*List<AccessibilityNodeInfo> resultInfoList
                 = AccessUtils.findAccessibilityNodeInfosByText(rootInfo, "跳过");*/
         List<AccessibilityNodeInfo> resultInfoList
                 = rootInfo.findAccessibilityNodeInfosByText("跳过");
         if (resultInfoList.isEmpty()) {
-            Log.d(TAG, "onAccessibilityEvent: startSearchByID");
             resultInfoList = AccessUtils.findAccessibilityNodeInfosByIDContain(rootInfo, "skip");
         }
         if (!resultInfoList.isEmpty()) {
             for (AccessibilityNodeInfo info : resultInfoList) {
-                AccessUtils.click(info);
+                Rect rect = new Rect();
+                info.getBoundsInScreen(rect);
+                AccessUtils.clickInScreen(rect.centerX(), rect.centerY());
                 info.recycle();
             }
             stopSelf();

@@ -23,6 +23,7 @@ public class AccessService extends AccessibilityService {
     private final String CHANNEL_NAME = "keepAccessService";
     private final String CHANNEL_DESCRIPTION = "前台服务保活";
     private final int NOTIFICATION_ID = 391;
+    private static AccessService mAccessService;
     private NotificationCompat.Builder builder;
     private RemoteViews viewNoti;
     private NotificationManager manager;
@@ -30,6 +31,11 @@ public class AccessService extends AccessibilityService {
     private long lastClickTime;
 
     public AccessService() {
+        mAccessService = this;
+    }
+
+    public static AccessService getServiceInstance(){
+        return mAccessService;
     }
 
     @Override

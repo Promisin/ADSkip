@@ -15,9 +15,9 @@ import java.util.List;
 
 import static com.ypp.adskip.AccessService.getServiceInstance;
 
-public class AccessUtils {
+class AccessUtils {
     private static final String TAG = "AccessUtils";
-    public static void click(AccessibilityNodeInfo info) {
+    static void click(AccessibilityNodeInfo info) {
         if (info==null){
             Log.d(TAG, "click: 不存在指定控件");
             return;
@@ -30,7 +30,7 @@ public class AccessUtils {
         }
     }
 
-    public static void clickInScreen(int x, int y){
+    static void clickInScreen(int x, int y){
         int duration = ViewConfiguration.getTapTimeout()+50;
         Path path = new Path();
         path.moveTo(x, y);
@@ -42,7 +42,7 @@ public class AccessUtils {
         Log.d(TAG, "clickInScreen: "+x+" "+y);
     }
 
-    public static List<AccessibilityNodeInfo> findAccessibilityNodeInfosByText(AccessibilityNodeInfo rootNodeInfo, String targetString){
+    static List<AccessibilityNodeInfo> findAccessibilityNodeInfosByText(AccessibilityNodeInfo rootNodeInfo, String targetString){
         List<AccessibilityNodeInfo> resultList = new ArrayList<>();
         if (rootNodeInfo!=null && rootNodeInfo.getChildCount()!=0){
             for (int i = 0; i < rootNodeInfo.getChildCount(); i++) {
@@ -61,7 +61,7 @@ public class AccessUtils {
         return resultList;
     }
 
-    public static List<AccessibilityNodeInfo> findAccessibilityNodeInfosByIDContain(AccessibilityNodeInfo rootNodeInfo, String targetString){
+    static List<AccessibilityNodeInfo> findAccessibilityNodeInfosByIDContain(AccessibilityNodeInfo rootNodeInfo, String targetString){
         List<AccessibilityNodeInfo> resultList = new ArrayList<>();
         if (rootNodeInfo!=null && rootNodeInfo.getChildCount()!=0){
             for (int i = 0; i < rootNodeInfo.getChildCount(); i++) {
@@ -81,7 +81,7 @@ public class AccessUtils {
         return resultList;
     }
 
-    public static boolean isAccessibilityServiceEnabled(Context context, Class serviceClass){
+    static boolean isAccessibilityServiceEnabled(Context context, Class serviceClass){
         ComponentName componentName = new ComponentName(context, serviceClass);
         String enabledService = Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);

@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,11 +18,11 @@ public class AppListAdapter extends BaseAdapter {
         this.appNodeInfoList = appNodeInfoList;
     }
 
-    public AppListAdapter(Context mContext) {
+    AppListAdapter(Context mContext) {
         this.mContext = mContext;
     }
 
-    public void setAppNodeInfoList(List<AppNodeInfo> appNodeInfoList) {
+    void setAppNodeInfoList(List<AppNodeInfo> appNodeInfoList) {
         this.appNodeInfoList = appNodeInfoList;
         notifyDataSetChanged();
     }

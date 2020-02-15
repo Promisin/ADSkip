@@ -1,10 +1,8 @@
 package com.ypp.adskip;
 
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -21,10 +19,6 @@ class Utils {
     static final int ACTION_NO_CLICK = 1;
     static final int ACTION_VIEW_CLICK = 2;
     static final int ACTION_SCREEN_CLICK = 3;
-    static final String[] ACTION_DESCRIP = {"不点击：对指定APP不执行点击跳过广告",
-            "控件点击：对找到的跳过按钮直接点击",
-            "屏幕点击：模拟对跳过按钮在屏幕上对应位置的点击，可能误点击悬浮框、" +
-                    "弹出到的通知等在按钮上层的控件，建议在控件点击无效的情况下尝试使用"};
     static boolean isServiceRunning(Context context) {
         return getSharedPreferences(context).getBoolean("service",false);
     }
@@ -58,7 +52,7 @@ class Utils {
         return appNodeInfoList;
     }
 
-    public static void showChooseClickActionDialog(final Context context, final AppNodeInfo appNodeInfo){
+    static void showChooseClickActionDialog(final Context context, final AppNodeInfo appNodeInfo){
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_choose, null);
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(view);

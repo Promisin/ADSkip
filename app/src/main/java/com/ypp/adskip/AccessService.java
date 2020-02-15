@@ -6,6 +6,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -27,8 +28,11 @@ public class AccessService extends AccessibilityService {
     private NotificationCompat.Builder builder;
     private RemoteViews viewNoti;
     private NotificationManager manager;
+    private SharedPreferences sharedPreferences;
     private boolean canStartWork = false;
+    private boolean canConfirmPackage = false;
     private long lastClickTime;
+    private String currentPackage;
 
     public AccessService() {
         mAccessService = this;
@@ -40,15 +44,31 @@ public class AccessService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
+        if (event.getEventType()==AccessibilityEvent.TYPE_VIEW_CLICKED){
+            Log.d(TAG, "onAccessibilityEvent: "+event.toString());
+        }
+        if (canConfirmPackage){
+            currentPackage = event.getPackageName().toString();
+            canConfirmPackage = false;
+        }
         if (event.getPackageName() != null &&
                 event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED &&
-                event.getPackageName().toString().contains("launcher")) {
+                event.getPackageName().toString().contains("launcher") &&
+                !event.getPackageName().toString().equals(this.getPackageName())) {
             canStartWork = true;
+            canConfirmPackage = true;
             lastClickTime = event.getEventTime();
         }
         if (!canStartWork) {
             return;
         }
+        int actionFlag = Utils.ACTION_VIEW_CLICK;
+        if (event.getPackageName()!=null && (actionFlag = sharedPreferences
+                .getInt(currentPackage,Utils.ACTION_VIEW_CLICK))==Utils.ACTION_NO_CLICK){
+            canStartWork = false;
+            return;
+        }
+        Log.d(TAG, "onAccessibilityEvent: "+actionFlag);
         try {
             if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED ||
                 event.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED &&
@@ -63,7 +83,7 @@ public class AccessService extends AccessibilityService {
                     }
                 }
                 if (rootInfo!=null){
-                    ExecuteIntentService.startExecuteInfo(getApplicationContext(), rootInfo);
+                    ExecuteIntentService.startExecuteInfo(getApplicationContext(), rootInfo, actionFlag);
                 }
                 if ((event.getEventTime()-lastClickTime)>3000){
                     canStartWork = false;
@@ -87,6 +107,7 @@ public class AccessService extends AccessibilityService {
         super.onCreate();
         Log.d(TAG, "onCreate: ");
         Utils.setServiceRunning(getApplicationContext(),true);
+        sharedPreferences = getApplicationContext().getSharedPreferences("app_action",MODE_PRIVATE);
     }
 
     @Override

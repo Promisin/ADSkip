@@ -46,12 +46,16 @@ public class AccessUtils {
         List<AccessibilityNodeInfo> resultList = new ArrayList<>();
         if (rootNodeInfo!=null && rootNodeInfo.getChildCount()!=0){
             for (int i = 0; i < rootNodeInfo.getChildCount(); i++) {
-                if (rootNodeInfo.getChild(i)!=null &&
-                        rootNodeInfo.getChild(i).getText()!=null &&
-                        rootNodeInfo.getChild(i).getText().toString().contains(targetString)) {
-                    resultList.add(rootNodeInfo.getChild(i));
+                AccessibilityNodeInfo childInfo = rootNodeInfo.getChild(i);
+                if (childInfo!=null &&
+                        childInfo.getText()!=null &&
+                        childInfo.getText().toString().contains(targetString)) {
+                    resultList.add(childInfo);
                 }
-                resultList.addAll(findAccessibilityNodeInfosByText(rootNodeInfo.getChild(i), targetString));
+                resultList.addAll(findAccessibilityNodeInfosByText(childInfo, targetString));
+                if (childInfo!=null && !resultList.contains(childInfo)){
+                    childInfo.recycle();
+                }
             }
         }
         return resultList;
@@ -64,15 +68,14 @@ public class AccessUtils {
                 AccessibilityNodeInfo childInfo = rootNodeInfo.getChild(i);
                 if (childInfo!=null && childInfo.getViewIdResourceName()!=null) {
                     String[] resourceID = childInfo.getViewIdResourceName().split(":");
-                    Log.d(TAG, "findAccessibilityNodeInfosByIDContain: "+resourceID[1]);
                     if (resourceID[1].contains(targetString)){
                         resultList.add(childInfo);
                     }
                 }
                 resultList.addAll(findAccessibilityNodeInfosByIDContain(childInfo, targetString));
-                /*if (!resultList.contains(childInfo)){
+                if (childInfo!=null && !resultList.contains(childInfo)){
                     childInfo.recycle();
-                }*/
+                }
             }
         }
         return resultList;

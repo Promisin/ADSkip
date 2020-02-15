@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private AppCompatToggleButton buttonStart;
     private TextView permissionTv;
     private LinearLayout permissionLayout;
+    private LinearLayout appSettingLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
                 }
+            }
+        });
+        appSettingLayout = findViewById(R.id.app_setting_layout);
+        appSettingLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AppsSettingActivity.class);
+                startActivity(intent);
             }
         });
     }

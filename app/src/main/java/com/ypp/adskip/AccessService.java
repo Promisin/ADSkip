@@ -112,6 +112,9 @@ public class AccessService extends AccessibilityService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent.getBooleanExtra("tryDisable",false)){
+            disableSelf();
+        }
         Log.d(TAG, "onStartCommand: ");
         NotificationChannel channel = new NotificationChannel(
                 CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_MIN);

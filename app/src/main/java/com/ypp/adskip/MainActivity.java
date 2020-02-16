@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
                     startService(intent);
                 }
                 else {
+                    intent.putExtra("tryDisable",true);
+                    startService(intent);
                     stopService(intent);
                 }
             }

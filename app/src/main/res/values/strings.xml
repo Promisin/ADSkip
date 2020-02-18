@@ -10,12 +10,16 @@
     <string name="app_respectively_setting">分应用设置</string>
     <string name="arrow"><![CDATA[>]]></string>
     <string name="setting_activity_title">分应用设置</string>
-    <string name="action_no_click">不点击\t\t\t\t</string>
-    <string name="dialog_title">选择动作选项</string>
-    <string name="action_view_click">控件点击\t\t\t\t</string>
-    <string name="action_screen_click">屏幕点击\t\t\t\t</string>
+    <string name="action_setting_title">选择动作</string>
+    <string name="action_no_click">不点击</string>
+    <string name="action_view_click">控件点击</string>
+    <string name="action_screen_click">屏幕点击</string>
+    <string name="custom_screen_click">自定义点击</string>
     <string name="description_title">选项说明</string>
     <string name="description_no_click">不点击：对指定APP不执行点击跳过广告</string>
     <string name="description_view_click">控件点击：对找到的跳过按钮直接点击</string>
     <string name="description_screen_click">屏幕点击：模拟对跳过按钮在屏幕上对应位置的点击，可能误点击悬浮框、弹出到的通知等在按钮上层的控件，建议在控件点击无效的情况下尝试使用</string>
+    <string name="description_custom_click">自定义点击：自定义点击位置、点击延时</string>
+    <string name="request_overlay_permission">浮窗权限：</string>
+    <string name="permission_overlay_desciption">开启浮窗权限便于自定义点击坐标选择</string>
 </resources>

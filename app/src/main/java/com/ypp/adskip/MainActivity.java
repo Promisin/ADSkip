@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView permissionTv;
     private LinearLayout permissionLayout;
     private LinearLayout appSettingLayout;
-
+    private LinearLayout permissionOverlayLayout;
+    private TextView permissionOverlayTv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +54,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        permissionOverlayLayout = findViewById(R.id.permission_overlay_layout);
+        permissionOverlayTv = findViewById(R.id.permission_overlay_tv);
+        permissionOverlayLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Utils.canDrawOverlays(getApplicationContext())){
+                    Toast.makeText(MainActivity.this, "权限已开启",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION));
+                }
+            }
+        });
         appSettingLayout = findViewById(R.id.app_setting_layout);
         appSettingLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +93,21 @@ public class MainActivity extends AppCompatActivity {
                     Drawable drawable = getResources().getDrawable(R.drawable.permission_no, null);
                     drawable.setBounds(0,0,permissionTv.getMeasuredHeight(),permissionTv.getMeasuredHeight());
                     permissionTv.setCompoundDrawablesRelative(null,null,drawable,null);
+                }
+            }
+        });
+        permissionOverlayTv.post(new Runnable() {
+            @Override
+            public void run() {
+                if (Utils.canDrawOverlays(getApplicationContext())){
+                    Drawable drawable = getResources().getDrawable(R.drawable.permission_yes, null);
+                    drawable.setBounds(0,0,permissionOverlayTv.getMeasuredHeight(),permissionOverlayTv.getMeasuredHeight());
+                    permissionOverlayTv.setCompoundDrawablesRelative(null,null,drawable,null);
+                }
+                else {
+                    Drawable drawable = getResources().getDrawable(R.drawable.permission_no, null);
+                    drawable.setBounds(0,0,permissionOverlayTv.getMeasuredHeight(),permissionOverlayTv.getMeasuredHeight());
+                    permissionOverlayTv.setCompoundDrawablesRelative(null,null,drawable,null);
                 }
             }
         });

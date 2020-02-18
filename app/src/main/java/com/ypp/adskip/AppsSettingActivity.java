@@ -3,6 +3,7 @@ package com.ypp.adskip;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ContentLoadingProgressBar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -39,8 +40,9 @@ public class AppsSettingActivity extends AppCompatActivity {
         appList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                searchEt.setSelected(false);
-                Utils.showChooseClickActionDialog(AppsSettingActivity.this,currentList.get(position));
+                Intent intent = new Intent(AppsSettingActivity.this, ActionSettingActivity.class);
+                intent.putExtra("packageName", currentList.get(position).getPackageName());
+                startActivity(intent);
             }
         });
         new Thread(){

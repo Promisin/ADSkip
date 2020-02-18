@@ -1,10 +1,12 @@
 package com.ypp.adskip;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,8 @@ class Utils {
     static final int ACTION_NO_CLICK = 1;
     static final int ACTION_VIEW_CLICK = 2;
     static final int ACTION_SCREEN_CLICK = 3;
+    static final int ACTION_CUSTOM_CLICK = 4;
+    private String[] permissions = {Manifest.permission.SYSTEM_ALERT_WINDOW};
     static boolean isServiceRunning(Context context) {
         return getSharedPreferences(context).getBoolean("service",false);
     }
@@ -50,6 +54,10 @@ class Utils {
             e.printStackTrace();
         }
         return appNodeInfoList;
+    }
+
+    static boolean canDrawOverlays(Context context){
+        return Settings.canDrawOverlays(context);
     }
 
     static void showChooseClickActionDialog(final Context context, final AppNodeInfo appNodeInfo){

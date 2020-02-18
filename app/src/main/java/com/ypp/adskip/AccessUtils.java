@@ -31,7 +31,7 @@ class AccessUtils {
     }
 
     static void clickInScreen(int x, int y){
-        int duration = ViewConfiguration.getTapTimeout()+50;
+        int duration = ViewConfiguration.getTapTimeout()+200;
         Path path = new Path();
         path.moveTo(x, y);
         GestureDescription.StrokeDescription description =
@@ -68,7 +68,7 @@ class AccessUtils {
                 AccessibilityNodeInfo childInfo = rootNodeInfo.getChild(i);
                 if (childInfo!=null && childInfo.getViewIdResourceName()!=null) {
                     String[] resourceID = childInfo.getViewIdResourceName().split(":");
-                    if (resourceID[1].contains(targetString)){
+                    if (resourceID.length>=2 && resourceID[1].contains(targetString)){
                         resultList.add(childInfo);
                     }
                 }

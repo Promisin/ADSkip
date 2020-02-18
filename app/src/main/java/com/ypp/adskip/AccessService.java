@@ -62,6 +62,7 @@ public class AccessService extends AccessibilityService {
         if (!canStartWork) {
             return;
         }
+        Log.d(TAG, "onAccessibilityEvent: "+currentPackage);
         int actionFlag = Utils.ACTION_VIEW_CLICK;
         if (event.getPackageName()!=null && (actionFlag = sharedPreferences
                 .getInt(currentPackage,Utils.ACTION_VIEW_CLICK))==Utils.ACTION_NO_CLICK){
@@ -83,9 +84,9 @@ public class AccessService extends AccessibilityService {
                     }
                 }
                 if (rootInfo!=null){
-                    ExecuteIntentService.startExecuteInfo(getApplicationContext(), rootInfo, actionFlag);
+                    ExecuteIntentService.startExecuteInfo(getApplicationContext(), rootInfo, currentPackage, actionFlag);
                 }
-                if ((event.getEventTime()-lastClickTime)>3000){
+                if ((event.getEventTime()-lastClickTime)>3000 || actionFlag==Utils.ACTION_CUSTOM_CLICK){
                     canStartWork = false;
                 }
             }

@@ -105,9 +105,9 @@ public class ActionSettingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     showAnchor();
-                    xDisTv.setText(positionPreferences.getInt(packageName+"x",0));
-                    yDisTv.setText(positionPreferences.getInt(packageName+"y",0));
-                    delayEt.setText(delayPreferences.getInt(packageName,1000));
+                    xDisTv.setText(positionPreferences.getString(packageName+"x",""));
+                    yDisTv.setText(positionPreferences.getString(packageName+"y",""));
+                    delayEt.setText(delayPreferences.getString(packageName,""));
                     customLayout.setVisibility(View.VISIBLE);
                 }
                 else {

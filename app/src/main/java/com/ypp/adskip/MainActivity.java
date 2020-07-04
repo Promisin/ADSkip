@@ -84,14 +84,15 @@ public class MainActivity extends AppCompatActivity {
         permissionTv.post(new Runnable() {
             @Override
             public void run() {
+                int height = permissionTv.getMeasuredHeight();
                 if (AccessUtils.isAccessibilityServiceEnabled(getApplicationContext(),AccessService.class)){
                     Drawable drawable = getResources().getDrawable(R.drawable.permission_yes, null);
-                    drawable.setBounds(0,0,permissionTv.getMeasuredHeight(),permissionTv.getMeasuredHeight());
+                    drawable.setBounds(0, (int) (0.1*height), (int) (0.8*height), (int) (0.9*height));
                     permissionTv.setCompoundDrawablesRelative(null,null,drawable,null);
                 }
                 else {
                     Drawable drawable = getResources().getDrawable(R.drawable.permission_no, null);
-                    drawable.setBounds(0,0,permissionTv.getMeasuredHeight(),permissionTv.getMeasuredHeight());
+                    drawable.setBounds(0, (int) (0.1*height), (int) (0.8*height), (int) (0.9*height));
                     permissionTv.setCompoundDrawablesRelative(null,null,drawable,null);
                 }
             }
@@ -99,14 +100,15 @@ public class MainActivity extends AppCompatActivity {
         permissionOverlayTv.post(new Runnable() {
             @Override
             public void run() {
+                int height = permissionOverlayTv.getMeasuredHeight();
                 if (Utils.canDrawOverlays(getApplicationContext())){
                     Drawable drawable = getResources().getDrawable(R.drawable.permission_yes, null);
-                    drawable.setBounds(0,0,permissionOverlayTv.getMeasuredHeight(),permissionOverlayTv.getMeasuredHeight());
+                    drawable.setBounds(0, (int) (0.1*height), (int) (0.8*height), (int) (0.9*height));
                     permissionOverlayTv.setCompoundDrawablesRelative(null,null,drawable,null);
                 }
                 else {
                     Drawable drawable = getResources().getDrawable(R.drawable.permission_no, null);
-                    drawable.setBounds(0,0,permissionOverlayTv.getMeasuredHeight(),permissionOverlayTv.getMeasuredHeight());
+                    drawable.setBounds(0, (int) (0.1*height), (int) (0.8*height), (int) (0.9*height));
                     permissionOverlayTv.setCompoundDrawablesRelative(null,null,drawable,null);
                 }
             }

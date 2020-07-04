@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.provider.Settings;
@@ -39,13 +40,13 @@ class Utils {
         PackageManager packageManager = context.getPackageManager();
         List<AppNodeInfo> appNodeInfoList = new ArrayList<AppNodeInfo>();
         try {
-            List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
-            for (PackageInfo info : packageInfos){
-                if (!info.packageName.startsWith("com.android") && info.applicationInfo.loadLabel(packageManager).length()<16){
+            List<ApplicationInfo> applicationInfos = packageManager.getInstalledApplications(0);
+            for (ApplicationInfo info : applicationInfos){
+                if (packageManager.getLaunchIntentForPackage(info.packageName) != null){
                     AppNodeInfo appNodeInfo = new AppNodeInfo(
-                            info.applicationInfo.loadIcon(packageManager),
+                            info.loadIcon(packageManager),
                             info.packageName,
-                            (String) info.applicationInfo.loadLabel(packageManager));
+                            (String) info.loadLabel(packageManager));
                     appNodeInfoList.add(appNodeInfo);
                 }
             }
